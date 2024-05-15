@@ -2,12 +2,17 @@ import React, { useContext } from "react";
 import Layout from "../../../components/layout/Layout";
 import myContext from "../../../context/data/myContext";
 import { Button } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../../components/variables.css";
 
 function Dashboard() {
  const context = useContext(myContext);
- const { mode } = context;
+ const { mode, getAllBlog } = context;
+ const navigate = useNavigate();
+ const logout = () => {
+  localStorage.clear("admin");
+  navigate("/");
+ };
  return (
   <Layout>
    <div className="py-10">
@@ -45,6 +50,7 @@ function Dashboard() {
        </Link>
        <div className="mb-2">
         <Button
+         onClick={logout}
          style={{
           background: mode === "dark" ? "var(--btn-d-color)" : "var(--btn-color)",
           color: mode === "dark" ? "black" : "white",
@@ -100,40 +106,51 @@ function Dashboard() {
         </thead>
 
         {/* tbody  */}
-        <tbody>
-         <tr className=" border-b-2" style={{ background: mode === "dark" ? "var(--btn-color)" : "white" }}>
-          {/* S.No   */}
-          <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-6 py-4">
-           {"1."}
-          </td>
+        {getAllBlog.length > 0 ? (
+         <>
+          {getAllBlog.map((item, index) => {
+           const { thumbnail, date } = item;
+           return (
+            <tbody key={index}>
+             <tr className=" border-b-2" style={{ background: mode === "dark" ? "var(--btn-color)" : "white" }}>
+              {/* S.No   */}
+              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-6 py-4">
+               {index + 1}.
+              </td>
 
-          {/* Blog Thumbnail  */}
-          <th style={{ color: mode === "dark" ? "white" : "black" }} scope="row" className="px-6 py-4 font-medium ">
-           {/* thumbnail  */}
-           <img className="w-16 rounded-lg" src="src/assets/thumbnail.gif" alt="thumbnail" />
-          </th>
+              {/* Blog Thumbnail  */}
+              <th style={{ color: mode === "dark" ? "white" : "black" }} scope="row" className="px-6 py-4 font-medium ">
+               {/* thumbnail  */}
+               <img className="w-16 h-16 rounded-lg" src={thumbnail} alt="thumbnail" />
+              </th>
 
-          {/* Blog Title  */}
-          <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-6 py-4">
-           {"React Introduction"}
-          </td>
+              {/* Blog Title  */}
+              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-6 py-4">
+               {item.blogs.title}
+              </td>
 
-          {/* Blog Category  */}
-          <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-6 py-4">
-           {"reactjs"}
-          </td>
+              {/* Blog Category  */}
+              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-6 py-4">
+               {item.blogs.category}
+              </td>
 
-          {/* Blog Date  */}
-          <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-6 py-4">
-           {"Jul 25, 2024"}
-          </td>
+              {/* Blog Date  */}
+              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-6 py-4">
+               {date}
+              </td>
 
-          {/* Delete Blog  */}
-          <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-4 py-4">
-           <button className=" px-4 py-1 rounded-full text-white font-bold bg-orange-900">Delete</button>
-          </td>
-         </tr>
-        </tbody>
+              {/* Delete Blog  */}
+              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-4 py-4">
+               <button className=" px-4 py-1 rounded-full text-white font-bold bg-orange-900">Delete</button>
+              </td>
+             </tr>
+            </tbody>
+           );
+          })}
+         </>
+        ) : (
+         <p>Not Found</p>
+        )}
        </table>
       </div>
      </div>

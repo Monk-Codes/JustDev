@@ -1,20 +1,60 @@
 import React, { useState, useContext } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
+import { fireDB, storage } from "../../../firebase/FirebaseConfig";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
-import myContext from "../../../context/data/myContext";
-import { Link } from "react-router-dom";
-import "../../../components/variables.css";
-
 import { Button, Typography } from "@material-tailwind/react";
+import { Editor } from "@tinymce/tinymce-react";
+import myContext from "../../../context/data/myContext";
+import "../../../components/variables.css";
+import toast from "react-hot-toast";
 
 function CreateBlog() {
  const context = useContext(myContext);
  const { mode } = context;
-
- const [blogs, setBlogs] = useState("");
- const [thumbnail, setthumbnail] = useState();
-
  const [text, settext] = useState("");
+ const [thumbnail, setthumbnail] = useState();
+ const [blogs, setBlogs] = useState({
+  title: "",
+  category: "",
+  content: "",
+  time: Timestamp.now(),
+ });
+ const navigate = useNavigate();
+ const addPost = async () => {
+  if (blogs.title === "" || blogs.category === "" || blogs.content === "" || blogs.thumbnail === "") {
+   toast.error("Please Fill All Fields");
+  }
+  uploadImage();
+ };
+
+ const uploadImage = () => {
+  if (!thumbnail) return;
+  const imageRef = ref(storage, `blogimage/${thumbnail.name}`);
+  uploadBytes(imageRef, thumbnail).then((snapshot) => {
+   getDownloadURL(snapshot.ref).then((url) => {
+    const productRef = collection(fireDB, "BLOGS");
+    try {
+     addDoc(productRef, {
+      blogs,
+      thumbnail: url,
+      time: Timestamp.now(),
+      date: new Date().toLocaleString("en-US", {
+       month: "short",
+       day: "2-digit",
+       year: "numeric",
+      }),
+     });
+     navigate("/dashboard");
+     toast.success("Post Added Successfully");
+    } catch (error) {
+     toast.error(error);
+     console.log(error);
+    }
+   });
+  });
+ };
  function createMarkup(c) {
   return { __html: c };
  }
@@ -73,6 +113,8 @@ function CreateBlog() {
        background: mode === "dark" ? "#dcdde1" : "var(--btn-color)",
       }}
       name="title"
+      value={blogs.title}
+      onChange={(e) => setBlogs({ ...blogs, title: e.target.value })}
      />
     </div>
     {/* Third Category Input  */}
@@ -86,12 +128,14 @@ function CreateBlog() {
        background: mode === "dark" ? "#dcdde1" : "var(--btn-color)",
       }}
       name="category"
+      value={blogs.category}
+      onChange={(e) => setBlogs({ ...blogs, category: e.target.value })}
      />
     </div>
     <Editor
      apiKey="qinlke3djdsd43mapzcspdyvg17zi4nk5dragnaggse6uyx8"
      onEditorChange={(newValue, editor) => {
-      setBlogs({ blogs, content: newValue });
+      setBlogs({ ...blogs, content: newValue });
       settext(editor.getContent({ format: "text" }));
      }}
      onInit={(evt, editor) => {
@@ -99,7 +143,7 @@ function CreateBlog() {
      }}
      init={{
       plugins:
-       "a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize autosave casechange charmap checklist code codesample directionality editimage emoticons export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mentions nonbreaking pagebreak template pageembed permanentpen powerpaste preview quickbars save searchreplace table tableofcontents tinydrive tinymcespellchecker typography visualblocks visualchars wordcount",
+       "a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize autosave casechange charmap checklist code codesample directionality editimage emoticons export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mentions nonbreaking pagebreak pageembed permanentpen powerpaste preview quickbars save searchreplace table tableofcontents tinydrive tinymcespellchecker typography visualblocks visualchars wordcount",
       toolbar: "undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | " + "bullist numlist outdent indent | link image | print preview media fullscreen | " + "forecolor backcolor emoticons | help",
       menubar: "file edit insert",
       icons: "thin",
@@ -109,6 +153,7 @@ function CreateBlog() {
     />
     {/* Five Submit Button  */}
     <Button
+     onClick={addPost}
      className=" w-full mt-5"
      style={{
       background: mode === "dark" ? "var(--btn-color)" : "var(--btn-d-color)",
