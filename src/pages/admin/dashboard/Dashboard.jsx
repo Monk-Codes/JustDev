@@ -35,7 +35,7 @@ function Dashboard() {
        monkcodesdev@gmail.com
       </h2>
       <h2 style={{ color: mode === "dark" ? "white" : "black" }} className="font-semibold">
-       <span>Total Blog : </span> 15
+       <span>Total Blog : </span> {getAllBlog.length}
       </h2>
       <div className=" flex gap-2 mt-2">
        <Link to={"/createblog"}>
@@ -72,7 +72,7 @@ function Dashboard() {
 
     {/* Table  */}
     <div className="">
-     <div className=" container mx-auto px-4 max-w-7xl my-5">
+     <div className=" container mx-auto px-4 max-w-5xl my-5">
       <div className="relative overflow-x-auto shadow-md sm:rounded-xl">
        {/* table  */}
        <table className="w-full border-2 border-white shadow-md text-sm text-left text-gray-500 dark:text-gray-400">
@@ -84,22 +84,22 @@ function Dashboard() {
          className="text-sm "
         >
          <tr>
-          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-6 py-3">
+          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-1 py-3">
            S.No
           </th>
-          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-6 py-3">
+          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-1 py-3">
            Thumbnail
           </th>
-          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-6 py-3">
+          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-1 py-3">
            Title
           </th>
-          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-6 py-3">
+          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-1 py-3">
            Category
           </th>
-          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-6 py-3">
+          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-1 py-3">
            Date
           </th>
-          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-6 py-3">
+          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-1 py-3">
            Action
           </th>
          </tr>
@@ -114,33 +114,33 @@ function Dashboard() {
             <tbody key={index}>
              <tr className=" border-b-2" style={{ background: mode === "dark" ? "var(--btn-color)" : "white" }}>
               {/* S.No   */}
-              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-6 py-4">
+              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
                {index + 1}.
               </td>
 
               {/* Blog Thumbnail  */}
-              <th style={{ color: mode === "dark" ? "white" : "black" }} scope="row" className="px-6 py-4 font-medium ">
+              <th style={{ color: mode === "dark" ? "white" : "black" }} scope="row" className="px-1 py-4 font-medium ">
                {/* thumbnail  */}
                <img className="w-16 h-16 rounded-lg" src={thumbnail} alt="thumbnail" />
               </th>
 
               {/* Blog Title  */}
-              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-6 py-4">
+              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
                {item.blogs.title}
               </td>
 
               {/* Blog Category  */}
-              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-6 py-4">
+              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
                {item.blogs.category}
               </td>
 
               {/* Blog Date  */}
-              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-6 py-4">
+              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
                {date}
               </td>
 
               {/* Delete Blog  */}
-              <td onClick={() => deleteBlog(id)} style={{ color: mode === "dark" ? "white" : "black" }} className="px-4 py-4">
+              <td onClick={() => deleteBlog(id)} style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
                <button className=" px-4 py-1 rounded-full text-white font-bold bg-orange-900">Delete</button>
               </td>
              </tr>
