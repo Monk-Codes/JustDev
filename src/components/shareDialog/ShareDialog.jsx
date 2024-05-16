@@ -32,7 +32,7 @@ export default function ShareDialogBox() {
        <div className="flex gap-3">
         {/* Linkedin Icon  */}
         <div className="">
-         <a href="">
+         <a href="https://www.linkedin.com/" target="_blank">
           <AiFillLinkedin
            size={35}
            style={{
@@ -44,7 +44,7 @@ export default function ShareDialogBox() {
 
         {/* Instagram Icon  */}
         <div className="">
-         <a href="">
+         <a href="https://www.instagram.com/" target="_blank">
           <AiFillInstagram
            size={35}
            style={{
@@ -56,7 +56,7 @@ export default function ShareDialogBox() {
 
         {/* Github Icon  */}
         <div className="">
-         <a href="">
+         <a href="https://www.github.com/" target="_blank">
           <AiFillGithub
            size={35}
            style={{
@@ -68,7 +68,7 @@ export default function ShareDialogBox() {
 
         {/* Facebook Icon  */}
         <div className="">
-         <a href="">
+         <a href="https://www.facebook.com/" target="_blank">
           <AiFillFacebook
            size={35}
            style={{

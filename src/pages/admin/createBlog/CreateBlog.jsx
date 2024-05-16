@@ -64,7 +64,7 @@ function CreateBlog() {
  }
  return (
   <Layout>
-   <div className="container mx-auto py-12 ">
+   <div className="container mx-auto  ">
     <div
      className="p-16 "
      style={{
