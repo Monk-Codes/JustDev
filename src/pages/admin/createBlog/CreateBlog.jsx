@@ -154,6 +154,10 @@ function CreateBlog() {
       icons: "thin",
       ui_mode: "split",
       content_css: "writer",
+      mobile: {
+       menubar: true,
+       toolbar: "undo bold italic styles",
+      },
      }}
     />
     {/* Five Submit Button  */}
