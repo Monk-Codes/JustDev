@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
@@ -11,6 +11,9 @@ import "../../../components/variables.css";
 import toast from "react-hot-toast";
 
 function CreateBlog() {
+ useEffect(() => {
+  window.scrollTo(0, 0);
+ }, []);
  const context = useContext(myContext);
  const { mode } = context;
  const [text, settext] = useState("");
@@ -114,7 +117,7 @@ function CreateBlog() {
       }}
       name="title"
       value={blogs.title}
-      onChange={(e) => setBlogs({ ...blogs, title: e.target.value })}
+      onChange={(e) => setBlogs({ title: e.target.value, ...blogs })}
      />
     </div>
     {/* Third Category Input  */}
@@ -129,7 +132,7 @@ function CreateBlog() {
       }}
       name="category"
       value={blogs.category}
-      onChange={(e) => setBlogs({ ...blogs, category: e.target.value })}
+      onChange={(e) => setBlogs({ category: e.target.value, ...blogs })}
      />
     </div>
     <Editor
@@ -160,7 +163,7 @@ function CreateBlog() {
       color: mode === "dark" ? "var(--btn-d-color)" : "var(--btn-color)",
      }}
     >
-     Send
+     Add Post
     </Button>
     {/* Six Preview Section  */}
     <div className="">

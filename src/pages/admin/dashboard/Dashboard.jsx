@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../../../components/layout/Layout";
 import myContext from "../../../context/data/myContext";
 import { Button } from "@material-tailwind/react";
@@ -6,8 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import "../../../components/variables.css";
 
 function Dashboard() {
+ useEffect(() => {
+  window.scrollTo(0, 0);
+ }, []);
  const context = useContext(myContext);
- const { mode, getAllBlog } = context;
+ const { mode, getAllBlog, deleteBlog } = context;
  const navigate = useNavigate();
  const logout = () => {
   localStorage.clear("admin");
@@ -21,7 +24,7 @@ function Dashboard() {
       <img className=" w-40 h-40  object-cover rounded-full border-2 border-orange-900 p-1" src="src/assets/admin.gif" alt="profile" />
      </div>
      <div className="right">
-      <h1 className="text-center font-bold text-2xl mb-2" style={{ color: mode === "dark" ? "white" : "black" }}>
+      <h1 className=" font-bold text-2xl mb-2" style={{ color: mode === "dark" ? "white" : "black" }}>
        Monk Codes
       </h1>
 
@@ -65,10 +68,7 @@ function Dashboard() {
     </div>
 
     {/* Line  */}
-    <hr
-     className={`border-2
-                 ${mode === "dark" ? "border-gray-300" : "border-gray-400"}`}
-    />
+    <hr className={`border-2 ${mode === "dark" ? "border-gray-300" : "border-gray-400"}`} />
 
     {/* Table  */}
     <div className="">
@@ -109,7 +109,7 @@ function Dashboard() {
         {getAllBlog.length > 0 ? (
          <>
           {getAllBlog.map((item, index) => {
-           const { thumbnail, date } = item;
+           const { thumbnail, date, id } = item;
            return (
             <tbody key={index}>
              <tr className=" border-b-2" style={{ background: mode === "dark" ? "var(--btn-color)" : "white" }}>
@@ -140,7 +140,7 @@ function Dashboard() {
               </td>
 
               {/* Delete Blog  */}
-              <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-4 py-4">
+              <td onClick={() => deleteBlog(id)} style={{ color: mode === "dark" ? "white" : "black" }} className="px-4 py-4">
                <button className=" px-4 py-1 rounded-full text-white font-bold bg-orange-900">Delete</button>
               </td>
              </tr>
@@ -149,7 +149,7 @@ function Dashboard() {
           })}
          </>
         ) : (
-         <p>Not Found</p>
+         <p className="py-2">No Blogs</p>
         )}
        </table>
       </div>

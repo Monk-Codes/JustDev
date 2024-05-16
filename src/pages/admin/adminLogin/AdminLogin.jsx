@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -8,6 +8,9 @@ import myContext from "../../../context/data/myContext";
 import "../../../components/variables.css";
 
 export default function AdminLogin() {
+ useEffect(() => {
+  window.scrollTo(0, 0);
+ }, []);
  const context = useContext(myContext);
  const { mode } = context;
  const navigate = useNavigate();
