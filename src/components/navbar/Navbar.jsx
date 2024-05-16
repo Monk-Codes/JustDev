@@ -9,7 +9,6 @@ import ShareDialogBox from "../shareDialog/ShareDialog";
 
 export default function Nav() {
  const [openNav, setOpenNav] = React.useState(false);
-
  const context = useContext(myContext);
  const { mode, toggleMode } = context;
  const admin = localStorage.getItem("admin");
@@ -45,7 +44,7 @@ export default function Nav() {
      <Link to={"/"}>
       <Typography as="a" className="mr-4 cursor-pointer py-1.5 text-xl font-bold flex gap-2 items-center" style={{ color: mode === "dark" ? "white" : "white" }}>
        {/* Logo Image  */}
-       <img className=" w-10 h-10 " src="src/assets/blog.gif" />
+       <img className=" w-10 h-10 " src="/src/assets/blog.gif" />
        {/* Logo Text  */}
        <span>Just Dev</span>
       </Typography>
@@ -58,13 +57,11 @@ export default function Nav() {
 
       {/* Search Icon */}
       <div>
-       {/* <AiOutlineSearch size={20} color="white" /> */}
        <SearchDialog />
       </div>
 
       {/* Share Icon */}
       <div className="hidden lg:block">
-       {/* <AiOutlineShareAlt size={20} color="white" /> */}
        <ShareDialogBox />
       </div>
 
@@ -75,7 +72,7 @@ export default function Nav() {
          <div className="">
           <Avatar
            key={1}
-           src={"src/assets/vlogger.gif"}
+           src={"/src/assets/vlogger.gif"}
            alt="avatar"
            withBorder={true}
            className="p-0.5 text-red-500 w-10 h-10"
