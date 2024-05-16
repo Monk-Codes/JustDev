@@ -15,7 +15,7 @@ function HeroSection() {
       <div className="mb-2">
        {/* Image  */}
        <div className="flex justify-center">
-        <img className="w-20 h-20" src="src/assets/blog.gif" alt="" />
+        <img className="w-20 h-20" src={"https://i.ibb.co/GkkYdwr/blog.gif"} alt="" />
        </div>
 
        {/* Text  */}

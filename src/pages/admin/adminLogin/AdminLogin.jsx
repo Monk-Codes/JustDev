@@ -54,7 +54,7 @@ export default function AdminLogin() {
      <div className="mb-4  border border-white/10 bg-white/10 p-2 text-white">
       <div className=" flex justify-center">
        {/* Image  */}
-       <img src="src/assets/vlogger.gif" className="h-20 w-20" />
+       <img src={"https://i.ibb.co/nsFNY7Z/vlogger.gif"} className="h-20 w-20" />
       </div>
      </div>
 

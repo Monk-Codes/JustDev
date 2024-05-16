@@ -1,6 +1,6 @@
 import Navbar from "../navbar/Navbar";
 import Footer from "../footer/Footer";
-
+import { Analytics } from "@vercel/analytics/react";
 function Layout({ children }) {
  return (
   <div>
@@ -8,7 +8,10 @@ function Layout({ children }) {
    <Navbar />
 
    {/* main Content  */}
-   <div className="content min-h-screen">{children}</div>
+   <div className="content min-h-screen">
+    {children}
+    <Analytics />
+   </div>
 
    {/* Footer  */}
    <Footer />

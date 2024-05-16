@@ -21,7 +21,7 @@ function Dashboard() {
    <div className="py-10">
     <div className="flex flex-wrap justify-start items-center lg:justify-center gap-2 lg:gap-10 px-4 lg:px-0 mb-8">
      <div className="left">
-      <img className=" w-40 h-40  object-cover rounded-full border-2 border-orange-900 p-1" src="src/assets/admin.gif" alt="profile" />
+      <img className=" w-40 h-40  object-cover rounded-full border-2 border-orange-900 p-1" src={"https://i.ibb.co/BsP2tfh/admin.gif"} alt="profile" />
      </div>
      <div className="right">
       <h1 className=" font-bold text-2xl mb-2" style={{ color: mode === "dark" ? "white" : "black" }}>

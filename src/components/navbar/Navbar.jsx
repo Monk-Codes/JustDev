@@ -44,7 +44,7 @@ export default function Nav() {
      <Link to={"/"}>
       <Typography as="a" className="mr-4 cursor-pointer py-1.5 text-xl font-bold flex gap-2 items-center" style={{ color: mode === "dark" ? "white" : "white" }}>
        {/* Logo Image  */}
-       <img className=" w-10 h-10 " src="/src/assets/blog.gif" />
+       <img className=" w-10 h-10 " src={"https://i.ibb.co/GkkYdwr/blog.gif"} />
        {/* Logo Text  */}
        <span>Just Devs</span>
       </Typography>
