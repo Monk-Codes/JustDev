@@ -7,13 +7,11 @@ import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { Button, Typography } from "@material-tailwind/react";
 import { Editor } from "@tinymce/tinymce-react";
 import myContext from "../../../context/data/myContext";
-import "../../../components/variables.css";
 import toast from "react-hot-toast";
+import "../../../components/variables.css";
 
 function CreateBlog() {
- useEffect(() => {
-  window.scrollTo(0, 0);
- }, []);
+ const navigate = useNavigate();
  const context = useContext(myContext);
  const { mode } = context;
  const [text, settext] = useState("");
@@ -24,10 +22,9 @@ function CreateBlog() {
   content: "",
   time: Timestamp.now(),
  });
- const navigate = useNavigate();
  const addPost = async () => {
   if (blogs.title === "" || blogs.category === "" || blogs.content === "" || blogs.thumbnail === "") {
-   toast.error("Please Fill All Fields");
+   return toast.error("Please Fill All Fields");
   }
   uploadImage();
  };
@@ -43,9 +40,9 @@ function CreateBlog() {
       blogs,
       thumbnail: url,
       time: Timestamp.now(),
-      date: new Date().toLocaleString("en-US", {
-       month: "short",
+      date: new Date().toLocaleString("en-IN", {
        day: "2-digit",
+       month: "short",
        year: "numeric",
       }),
      });
@@ -58,6 +55,9 @@ function CreateBlog() {
    });
   });
  };
+ useEffect(() => {
+  window.scrollTo(0, 0);
+ }, []);
  function createMarkup(c) {
   return { __html: c };
  }
@@ -83,7 +83,9 @@ function CreateBlog() {
        style={{
         color: mode === "dark" ? "white" : "grey",
        }}
-      ></Typography>
+      >
+       Create Blog
+      </Typography>
      </div>
     </div>
     {/* main Content  */}
@@ -117,7 +119,7 @@ function CreateBlog() {
       }}
       name="title"
       value={blogs.title}
-      onChange={(e) => setBlogs({ title: e.target.value, ...blogs })}
+      onChange={(e) => setBlogs({ ...blogs, title: e.target.value })}
      />
     </div>
     {/* Third Category Input  */}
@@ -132,7 +134,7 @@ function CreateBlog() {
       }}
       name="category"
       value={blogs.category}
-      onChange={(e) => setBlogs({ category: e.target.value, ...blogs })}
+      onChange={(e) => setBlogs({ ...blogs, category: e.target.value })}
      />
     </div>
     <Editor

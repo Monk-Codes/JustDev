@@ -46,7 +46,7 @@ export default function Nav() {
        {/* Logo Image  */}
        <img className=" w-10 h-10 " src="/src/assets/blog.gif" />
        {/* Logo Text  */}
-       <span>Just Dev</span>
+       <span>Just Devs</span>
       </Typography>
      </Link>
 
