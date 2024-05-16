@@ -72,7 +72,7 @@ export default function Nav() {
          <div className="">
           <Avatar
            key={1}
-           src={"/src/assets/vlogger.gif"}
+           src={"https://i.ibb.co/nsFNY7Z/vlogger.gif"}
            alt="avatar"
            withBorder={true}
            className="p-0.5 text-red-500 w-10 h-10"
