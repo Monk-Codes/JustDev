@@ -16,6 +16,7 @@ function Dashboard() {
   localStorage.clear("admin");
   navigate("/");
  };
+
  return (
   <Layout>
    <div className="py-10">
@@ -100,7 +101,10 @@ function Dashboard() {
            Date
           </th>
           <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-1 py-3">
-           Action
+           Edit
+          </th>
+          <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-1 py-3">
+           Delete
           </th>
          </tr>
         </thead>
@@ -138,7 +142,10 @@ function Dashboard() {
               <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
                {date}
               </td>
-
+              {/* Edit Blog  */}
+              <td onClick={() => navigate(`/editblog/${item.id}`)} style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
+               <button className=" px-4 py-1 rounded-full text-white font-bold bg-orange-900">Edit</button>
+              </td>
               {/* Delete Blog  */}
               <td onClick={() => deleteBlog(id)} style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
                <button className=" px-4 py-1 rounded-full text-white font-bold bg-orange-900">Delete</button>

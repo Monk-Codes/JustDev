@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MyContext from "./myContext";
-import { collection, deleteDoc, doc, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, updateDoc } from "firebase/firestore";
 import { fireDB } from "../../firebase/FirebaseConfig";
 import toast from "react-hot-toast";
 
@@ -15,44 +15,69 @@ function MyState(props) {
    document.body.style.backgroundColor = "white";
   }
  };
+
  const [searchkey, setSearchkey] = useState("");
  const [loading, setloading] = useState(false);
  const [getAllBlog, setGetAllBlog] = useState([]);
 
- function getAllBlogs() {
-  setloading(true);
-  try {
-   const q = query(collection(fireDB, "BLOGS"), orderBy("time"));
-   const data = onSnapshot(q, (QuerySnapshot) => {
-    let blogArray = [];
-    QuerySnapshot.forEach((doc) => {
-     blogArray.push({ ...doc.data(), id: doc.id });
-    });
-
-    setGetAllBlog(blogArray);
-    setloading(false);
-   });
-   return () => data;
-  } catch (error) {
-   console.log(error);
-   setloading(false);
-  }
- }
-
  useEffect(() => {
-  getAllBlogs();
+  // Define a cleanup function
+  let unsubscribe;
+  // Fetch initial data
+  const fetchData = async () => {
+   setloading(true);
+   try {
+    const q = query(collection(fireDB, "BLOGS"), orderBy("time"));
+    unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+     let blogArray = [];
+     QuerySnapshot.forEach((doc) => {
+      blogArray.push({ ...doc.data(), id: doc.id });
+     });
+     setGetAllBlog(blogArray);
+     setloading(false);
+    });
+   } catch (error) {
+    console.log(error);
+    setloading(false);
+   }
+  };
+  fetchData();
+  // Cleanup subscription on unmount
+  return () => {
+   if (unsubscribe) {
+    unsubscribe();
+   }
+  };
  }, []);
+
  // Blog Delete Function
  const deleteBlog = async (id) => {
   try {
    await deleteDoc(doc(fireDB, "BLOGS", id));
-   getAllBlogs();
    toast.success("Blog deleted successfully");
   } catch (error) {
    console.log(error);
   }
  };
- //
+
+ // Blog Edit Function
+ const editBlog = async (id, newTitle, newCategory) => {
+  try {
+   const blogRef = doc(fireDB, "BLOGS", id);
+   const blogSnapshot = await getDoc(blogRef);
+   if (blogSnapshot.exists()) {
+    await updateDoc(blogRef, {
+     title: newTitle,
+     category: newCategory,
+     time: Date.now(),
+    });
+    toast.success("Blog edited successfully");
+   }
+  } catch (error) {
+   console.log(error);
+  }
+ };
+
  return (
   <MyContext.Provider
    value={{
@@ -61,8 +86,8 @@ function MyState(props) {
     searchkey,
     setSearchkey,
     loading,
-    setloading,
     getAllBlog,
+    editBlog,
     deleteBlog,
    }}
   >

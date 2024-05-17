@@ -1,23 +1,41 @@
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
-import React, { useContext } from "react";
 import myContext from "../../context/data/myContext";
 import "../variables.css";
 import { Link, useNavigate } from "react-router-dom";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { fireDB } from "../../firebase/FirebaseConfig";
 
 function BlogPostCard() {
  const context = useContext(myContext);
- const { mode, getAllBlog } = context;
+ const { mode } = context;
  const navigate = useNavigate();
+
+ const [allBlogs, setAllBlogs] = useState([]);
+
+ useEffect(() => {
+  const q = query(collection(fireDB, "BLOGS"), orderBy("date", "desc"));
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+   let blogsArray = [];
+   querySnapshot.forEach((doc) => {
+    blogsArray.push({ id: doc.id, ...doc.data() });
+   });
+   setAllBlogs(blogsArray);
+  });
+
+  return () => unsubscribe(); // Cleanup subscription on unmount
+ }, []);
+
  return (
   <div>
    <section className="text-gray-600 body-font">
     <div className="container px-5 py-10 mx-auto max-w-7xl  ">
-     {/* btn Content  */}
+     {/* btn Content */}
      <div className="flex flex-wrap justify-center -m-4 mb-5 ">
-      {/* Card  */}
-      {getAllBlog.length > 0 ? (
+      {/* Card */}
+      {allBlogs.length > 0 ? (
        <>
-        {getAllBlog.map((item, index) => {
+        {allBlogs.map((item, index) => {
          const { thumbnail, id, date } = item;
          return (
           <div className="p-4 md:w-1/3 border-y-2 border-orange-100" key={index}>
@@ -31,12 +49,12 @@ function BlogPostCard() {
                ${mode === "dark" ? "shadow-gray-700" : "shadow-xl"} 
                rounded-xl overflow-hidden`}
            >
-            {/* Blog Thumbnail  */}
+            {/* Blog Thumbnail */}
             <img className=" w-full h-2/3" src={thumbnail} alt="blog" />
 
-            {/* Top Items  */}
+            {/* Top Items */}
             <div className="p-6">
-             {/* Blog Date  */}
+             {/* Blog Date */}
              <h2
               className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
               style={{
@@ -46,7 +64,7 @@ function BlogPostCard() {
               {date}
              </h2>
 
-             {/* Blog Title  */}
+             {/* Blog Title */}
              <h1
               className="title-font text-lg font-bold text-gray-900 mb-3"
               style={{
@@ -56,7 +74,7 @@ function BlogPostCard() {
               {item.blogs.title}
              </h1>
 
-             {/* Blog Description  */}
+             {/* Blog Description */}
              <p
               className="leading-relaxed mb-3"
               style={{
@@ -73,12 +91,12 @@ function BlogPostCard() {
        </>
       ) : (
        <>
-        <h1 className="text-xl font-bold"> Not Found</h1>
+        <h1 className="text-xl font-bold"> No Blogs</h1>
        </>
       )}
      </div>
 
-     {/* See More Button  */}
+     {/* See More Button */}
      <div className="flex justify-center my-5">
       <Link to={"/allblogs"}>
        <Button

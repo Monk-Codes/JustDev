@@ -8,7 +8,9 @@ import AdminLogin from "./pages/admin/adminLogin/AdminLogin";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import CreateBlog from "./pages/admin/createBlog/CreateBlog";
 import MyState from "./context/data/MyState";
+
 import { Toaster } from "react-hot-toast";
+import EditBlog from "./pages/editBlog/EditBlog";
 
 function App() {
  return (
@@ -19,6 +21,7 @@ function App() {
      <Route path="/blog" element={<Blog />} />
      <Route path="/allblogs" element={<AllBlogs />} />
      <Route path="/bloginfo/:id" element={<BlogInfo />} />
+     <Route path="/editblog/:id" element={<EditBlog />} />
      <Route path="/adminlogin" element={<AdminLogin />} />
      <Route
       path="/dashboard"
