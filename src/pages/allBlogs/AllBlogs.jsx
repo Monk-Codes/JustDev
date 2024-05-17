@@ -8,7 +8,8 @@ import { fireDB } from "../../firebase/FirebaseConfig";
 
 function AllBlogs() {
  const context = useContext(myContext);
- const { mode } = context;
+
+ const { mode, setloading } = context;
  const navigate = useNavigate();
 
  const [allBlogs, setAllBlogs] = useState([]);

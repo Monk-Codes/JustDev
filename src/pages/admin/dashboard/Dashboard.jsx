@@ -1,20 +1,45 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@material-tailwind/react";
+import { collection, deleteDoc, doc, onSnapshot, query, orderBy } from "firebase/firestore";
+import { fireDB } from "../../../firebase/FirebaseConfig";
 import Layout from "../../../components/layout/Layout";
 import myContext from "../../../context/data/myContext";
-import { Button } from "@material-tailwind/react";
-import { Link, useNavigate } from "react-router-dom";
 import "../../../components/variables.css";
 
 function Dashboard() {
- useEffect(() => {
-  window.scrollTo(0, 0);
- }, []);
+ const [loading, setLoading] = useState(false);
  const context = useContext(myContext);
- const { mode, getAllBlog, deleteBlog } = context;
+ const { mode } = context;
  const navigate = useNavigate();
+ const [getAllBlog, setGetAllBlog] = useState([]);
+
  const logout = () => {
   localStorage.clear("admin");
   navigate("/");
+ };
+
+ useEffect(() => {
+  setLoading(true);
+  const q = query(collection(fireDB, "BLOGS"), orderBy("time", "desc"));
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+   const blogsArray = [];
+   snapshot.forEach((doc) => {
+    blogsArray.push({ id: doc.id, ...doc.data() });
+   });
+   setGetAllBlog(blogsArray);
+   setLoading(false);
+  });
+
+  return () => unsubscribe(); // Cleanup subscription on unmount
+ }, []);
+
+ const deleteBlog = async (id) => {
+  try {
+   await deleteDoc(doc(fireDB, "BLOGS", id));
+  } catch (error) {
+   console.log(error);
+  }
  };
 
  return (
@@ -22,13 +47,12 @@ function Dashboard() {
    <div className="py-10">
     <div className="flex flex-wrap justify-start items-center lg:justify-center gap-2 lg:gap-10 px-4 lg:px-0 mb-8">
      <div className="left">
-      <img className=" w-40 h-40  object-cover rounded-full border-2 border-orange-900 p-1" src={"https://i.ibb.co/BsP2tfh/admin.gif"} alt="profile" />
+      <img className="w-40 h-40 object-cover rounded-full border-2 border-orange-900 p-1" src={"https://i.ibb.co/BsP2tfh/admin.gif"} alt="profile" />
      </div>
      <div className="right">
-      <h1 className=" font-bold text-2xl mb-2" style={{ color: mode === "dark" ? "white" : "black" }}>
+      <h1 className="font-bold text-2xl mb-2" style={{ color: mode === "dark" ? "white" : "black" }}>
        Monk Codes
       </h1>
-
       <h2 style={{ color: mode === "dark" ? "white" : "black" }} className="font-semibold">
        Software Developer
       </h2>
@@ -38,9 +62,9 @@ function Dashboard() {
       <h2 style={{ color: mode === "dark" ? "white" : "black" }} className="font-semibold">
        <span>Total Blog : </span> {getAllBlog.length}
       </h2>
-      <div className=" flex gap-2 mt-2">
+      <div className="flex gap-2 mt-2">
        <Link to={"/createblog"}>
-        <div className=" mb-2">
+        <div className="mb-2">
          <Button
           style={{
            background: mode === "dark" ? "var(--btn-d-color)" : "var(--btn-color)",
@@ -68,21 +92,19 @@ function Dashboard() {
      </div>
     </div>
 
-    {/* Line  */}
+    {/* Line */}
     <hr className={`border-2 ${mode === "dark" ? "border-gray-300" : "border-gray-400"}`} />
 
-    {/* Table  */}
+    {/* Table */}
     <div className="">
-     <div className=" container mx-auto px-4 max-w-5xl my-5">
+     <div className="container mx-auto px-4 max-w-5xl my-5">
       <div className="relative overflow-x-auto shadow-md sm:rounded-xl">
-       {/* table  */}
        <table className="w-full border-2 border-white shadow-md text-sm text-left text-gray-500 dark:text-gray-400">
-        {/* thead  */}
         <thead
          style={{
           background: mode === "dark" ? "white" : "var(--btn-color)",
          }}
-         className="text-sm "
+         className="text-sm"
         >
          <tr>
           <th style={{ color: mode === "dark" ? "var(--btn-color)" : "white" }} scope="col" className="px-1 py-3">
@@ -108,47 +130,33 @@ function Dashboard() {
           </th>
          </tr>
         </thead>
-
-        {/* tbody  */}
         {getAllBlog.length > 0 ? (
          <>
           {getAllBlog.map((item, index) => {
            const { thumbnail, date, id } = item;
            return (
             <tbody key={index}>
-             <tr className=" border-b-2" style={{ background: mode === "dark" ? "var(--btn-color)" : "white" }}>
-              {/* S.No   */}
+             <tr className="border-b-2" style={{ background: mode === "dark" ? "var(--btn-color)" : "white" }}>
               <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
                {index + 1}.
               </td>
-
-              {/* Blog Thumbnail  */}
-              <th style={{ color: mode === "dark" ? "white" : "black" }} scope="row" className="px-1 py-4 font-medium ">
-               {/* thumbnail  */}
+              <th style={{ color: mode === "dark" ? "white" : "black" }} scope="row" className="px-1 py-4 font-medium">
                <img className="w-16 h-16 rounded-lg" src={thumbnail} alt="thumbnail" />
               </th>
-
-              {/* Blog Title  */}
               <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
-               {item.blogs.title}
+               {item?.blogs?.title}
               </td>
-
-              {/* Blog Category  */}
               <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
-               {item.blogs.category}
+               {item?.blogs?.category}
               </td>
-
-              {/* Blog Date  */}
               <td style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
                {date}
               </td>
-              {/* Edit Blog  */}
-              <td onClick={() => navigate(`/editblog/${item.id}`)} style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
-               <button className=" px-4 py-1 rounded-full text-white font-bold bg-orange-900">Edit</button>
+              <td onClick={() => navigate(`/editblog/${id}`)} style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
+               <button className="px-4 py-1 rounded-full text-white font-bold bg-orange-900">Edit</button>
               </td>
-              {/* Delete Blog  */}
               <td onClick={() => deleteBlog(id)} style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
-               <button className=" px-4 py-1 rounded-full text-white font-bold bg-orange-900">Delete</button>
+               <button className="px-4 py-1 rounded-full text-white font-bold bg-orange-900">Delete</button>
               </td>
              </tr>
             </tbody>

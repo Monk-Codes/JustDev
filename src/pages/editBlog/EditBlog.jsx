@@ -120,7 +120,7 @@ function EditBlog() {
         background: mode === "dark" ? "#dcdde1" : "var(--btn-d-color)",
        }}
        name="title"
-       value={blogs.title}
+       value={blogs?.title}
        onChange={(e) => setBlogs({ ...blogs, title: e.target.value })}
       />
      </div>
@@ -135,7 +135,7 @@ function EditBlog() {
         background: mode === "dark" ? "#dcdde1" : "var(--btn-d-color)",
        }}
        name="category"
-       value={blogs.category}
+       value={blogs?.category}
        onChange={(e) => setBlogs({ ...blogs, category: e.target.value })}
       />
      </div>

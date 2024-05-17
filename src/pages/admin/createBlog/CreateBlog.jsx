@@ -24,10 +24,14 @@ function CreateBlog() {
   time: Timestamp.now(),
  });
  const addPost = async () => {
-  if (blogs.title === "" || blogs.category === "" || blogs.content === "" || blogs.thumbnail === "") {
+  if (blogs.title === "" || blogs.category === "" || blogs.content === "") {
    return toast.error("Please Fill All Fields");
   }
-  uploadImage();
+  if (thumbnail) {
+   uploadImage();
+  } else {
+   addBlogPost("https://i.ibb.co/GkkYdwr/blog.gif");
+  }
  };
 
  const uploadImage = () => {
@@ -35,26 +39,29 @@ function CreateBlog() {
   const imageRef = ref(storage, `blogimage/${thumbnail.name}`);
   uploadBytes(imageRef, thumbnail).then((snapshot) => {
    getDownloadURL(snapshot.ref).then((url) => {
-    const productRef = collection(fireDB, "BLOGS");
-    try {
-     addDoc(productRef, {
-      blogs,
-      thumbnail: url,
-      time: Timestamp.now(),
-      date: new Date().toLocaleString("en-IN", {
-       day: "2-digit",
-       month: "short",
-       year: "numeric",
-      }),
-     });
-     navigate("/dashboard");
-     toast.success("Post Added Successfully");
-    } catch (error) {
-     toast.error(error);
-     console.log(error);
-    }
+    addBlogPost(url);
    });
   });
+ };
+ const addBlogPost = async (thumbnailUrl) => {
+  const productRef = collection(fireDB, "BLOGS");
+  try {
+   addDoc(productRef, {
+    blogs,
+    thumbnail: thumbnailUrl,
+    time: Timestamp.now(),
+    date: new Date().toLocaleString("en-IN", {
+     day: "2-digit",
+     month: "short",
+     year: "numeric",
+    }),
+   });
+   navigate("/dashboard");
+   toast.success("Post Added Successfully");
+  } catch (error) {
+   toast.error(error);
+   console.log(error);
+  }
  };
  useEffect(() => {
   window.scrollTo(0, 0);
