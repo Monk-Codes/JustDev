@@ -95,7 +95,7 @@ function CreateBlog() {
       {/* Thumbnail  */}
       {thumbnail && <img className=" w-full rounded-md mb-3 " src={thumbnail ? URL.createObjectURL(thumbnail) : ""} alt="thumbnail" />}
       {/* Text  */}
-      <Typography variant="small" color="blue-gray" className="mb-2 font-semibold" style={{ color: mode === "dark" ? "white" : "grey" }}>
+      <Typography variant="small" color="light-blue" className="mb-2 font-semibold" style={{ color: mode === "dark" ? "white" : "#eee" }}>
        Upload Thumbnail
       </Typography>
       {/* First Thumbnail Input  */}
@@ -114,10 +114,10 @@ function CreateBlog() {
       <input
        label="Enter your Title"
        className={`shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
-                 outline-none ${mode === "dark" ? "placeholder-grey" : "placeholder-grey"}`}
+                 outline-none  ${mode === "dark" ? "placeholder-grey" : "placeholder-grey"}`}
        placeholder="Enter Your Title"
        style={{
-        background: mode === "dark" ? "#dcdde1" : "var(--btn-color)",
+        background: mode === "dark" ? "#dcdde1" : "var(--btn-d-color)",
        }}
        name="title"
        value={blogs.title}
@@ -132,7 +132,7 @@ function CreateBlog() {
                  outline-none ${mode === "dark" ? "placeholder-grey" : "placeholder-grey"}`}
        placeholder="Enter Your Category"
        style={{
-        background: mode === "dark" ? "#dcdde1" : "var(--btn-color)",
+        background: mode === "dark" ? "#dcdde1" : "var(--btn-d-color)",
        }}
        name="category"
        value={blogs.category}
@@ -175,8 +175,8 @@ function CreateBlog() {
      </Button>
      {/* Six Preview Section  */}
      <div className="">
-      <h1 className=" text-center mb-3 text-2xl">Preview</h1>
-      <div className="content">
+      <h1 className=" text-center mb-3 text-2xl text-orange-200">Preview</h1>
+      <div className="content text-orange-200">
        <div
         className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
        ${mode === "dark" ? "[&>h1]:text-[#ff4d4d]" : "[&>h1]:text-grey"}
@@ -196,7 +196,7 @@ function CreateBlog() {
                         ${mode === "dark" ? "[&>h6]:text-white" : "[&>h6]:text-grey"}
                         
                         [&>p]:text-[16px] [&>p]:mb-1.5
-                        ${mode === "dark" ? "[&>p]:text-[#7efff5]" : "[&>p]:text-grey"}
+                        ${mode === "dark" ? "[&>p]:text-white" : "[&>p]:text-grey"}
 
                         [&>ul]:list-disc [&>ul]:mb-2
                         ${mode === "dark" ? "[&>ul]:text-white" : "[&>ul]:text-grey"}

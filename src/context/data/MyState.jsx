@@ -5,7 +5,7 @@ import { fireDB } from "../../firebase/FirebaseConfig";
 import toast from "react-hot-toast";
 
 function MyState(props) {
- const [mode, setMode] = useState("light"); // Whether dark mode is enabled or not
+ const [mode, setMode] = useState("light");
  const toggleMode = () => {
   if (mode === "light") {
    setMode("dark");

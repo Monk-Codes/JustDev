@@ -12,7 +12,7 @@ function Footer() {
     {/* Blog Logo  */}
     <div className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
      {/* logo  */}
-     <img className="w-10" src={"https://i.ibb.co/GkkYdwr/blog.gif"} alt="logo" />
+     <img className="w-10" src={"https://i.ibb.co/GkkYdwr/blog.gif"} alt="Just Devs" />
      {/* logo text  */}
      <span className="ml-3 text-xl text-white">Just Devs</span>
     </div>
@@ -26,7 +26,7 @@ function Footer() {
     </p>
 
     {/* Right item  */}
-    <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+    <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start cursor-pointer">
      {/* Icon 1  */}
      <a href="https://monkcodes-dev.netlify.app/" className="text-gray-500">
       <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} className="w-5 h-5" viewBox="0 0 24 24">

@@ -74,11 +74,11 @@ export default function AdminLogin() {
      <form className=" flex flex-col gap-4">
       {/* First Input  */}
       <div>
-       <Input type="email" label="Email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+       <Input type="email" label="Email" name="email" className="text-light-green-400" value={email} onChange={(e) => setEmail(e.target.value)} />
       </div>
       {/* Second Input  */}
       <div>
-       <Input type="password" label="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+       <Input type="password" label="Password" className="text-light-green-400" value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
       {/* Login Button  */}
       <Button

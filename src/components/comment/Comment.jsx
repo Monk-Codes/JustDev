@@ -31,7 +31,7 @@ function Comment({ addComment, commentText, setcommentText, allComment, fullName
        onChange={(e) => {
         setFullName(e.target.value);
        }}
-       className="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none text-cyan-400  dark:placeholder-gray-400 "
+       className="px-0 w-full text-sm font-semibold border-0 focus:ring-0 focus:outline-none text-orange-600  dark:placeholder-gray-400 "
        style={{
         background: mode === "dark" ? "var(--light-color)" : "var(--btn-d-color)",
        }}
@@ -52,7 +52,7 @@ function Comment({ addComment, commentText, setcommentText, allComment, fullName
       <textarea
        id="comment"
        rows={6}
-       className="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none text-cyan-400 dark:placeholder-gray-400 "
+       className="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none text-orange-600 dark:placeholder-gray-400 "
        style={{ background: mode === "dark" ? "var(--light-color)" : "var(--btn-d-color)" }}
        placeholder="Write a comment..."
        value={commentText}
@@ -83,7 +83,7 @@ function Comment({ addComment, commentText, setcommentText, allComment, fullName
       const { fullName, commentText, date } = item;
       return (
        <>
-        <footer className="flex justify-between items-center mb-1 ">
+        <footer className="flex justify-between items-center mb-1 " key={index}>
          <div className="flex items-center my-2  py-1 rounded-sm ">
           <p className="inline-flex items-center text-md  " style={{ color: mode === "dark" ? "white" : "black" }}>
            {fullName} commented

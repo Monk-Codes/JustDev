@@ -16,7 +16,7 @@ export default function SearchDialog() {
  return (
   <Fragment>
    {/* Search Icon  */}
-   <div onClick={handleOpen}>
+   <div onClick={handleOpen} className="cursor-pointer">
     <AiOutlineSearch size={20} color="white" />
    </div>
    {/* Dialog  */}
@@ -42,14 +42,14 @@ export default function SearchDialog() {
      {/* Blog Card  */}
      <div className="flex flex-wrap justify-center  sm:mx-auto cursor-pointer ">
       {getAllBlog
-       .filter((obj) => obj.blogs.title.toLowerCase().includes(searchkey))
+       .filter((obj) => obj.blogs.title.toLowerCase().includes(searchkey.toLowerCase()))
        .map((item, index) => {
         const { thumbnail, date, id } = item;
         return (
-         <div className="p-2 sm:w-1/4 w-full " key={index}>
+         <div className="p-2 sm:w-1/4 w-full" key={index}>
           <div className=" container mx-auto px-4 bg-gray-200 p-2 rounded-2xl " onClick={() => navigate(`/bloginfo/${item.id}`)}>
            {/* Blog Thumbnail  */}
-           <img className="w-20 mb-2 rounded-lg" src={thumbnail} alt="thumbnail" />
+           <img className="w-20 h-20 mb-2 rounded-lg" src={thumbnail} alt="thumbnail" />
 
            {/* Blog Date  */}
            <p className="w-40 text-sm">{date}</p>
