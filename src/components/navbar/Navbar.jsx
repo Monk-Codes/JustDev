@@ -42,7 +42,7 @@ export default function Nav() {
     <div className="flex items-center justify-between text-blue-gray-900">
      {/* Home Page Link  */}
      <Link to={"/"}>
-      <Typography as="a" className="mr-4 cursor-pointer py-1.5 text-xl font-bold flex gap-2 items-center" style={{ color: mode === "dark" ? "white" : "white" }}>
+      <Typography as="" className="mr-4 cursor-pointer py-1 text-lg font-bold flex gap-2 items-center" style={{ color: mode === "dark" ? "white" : "white" }}>
        {/* Logo Image  */}
        <img className=" w-10 h-10 " src={"https://i.ibb.co/GkkYdwr/blog.gif"} />
        {/* Logo Text  */}
@@ -51,7 +51,7 @@ export default function Nav() {
      </Link>
 
      {/* All Items  */}
-     <div className="flex items-center gap-4">
+     <div className="flex items-center gap-2">
       {/* Navlist  */}
       <div className="hidden lg:block">{navList}</div>
 
@@ -61,7 +61,7 @@ export default function Nav() {
       </div>
 
       {/* Share Icon */}
-      <div className="hidden lg:block">
+      <div className="">
        <ShareDialogBox />
       </div>
 
