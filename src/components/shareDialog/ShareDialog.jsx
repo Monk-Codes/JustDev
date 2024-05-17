@@ -25,7 +25,7 @@ export default function ShareDialogBox() {
  const currentUrl = window.location.href;
 
  const socialLinks = [
-  { icon: <AiFillCopy size={35} style={iconStyle} />, url: "", label: "Copy URL", onclick: copyToClipboard() },
+  { icon: <AiFillCopy size={35} style={iconStyle} />, url: "", label: "Copy URL", onclick: copyToClipboard },
   { icon: <AiFillLinkedin size={35} style={iconStyle} />, url: `https://www.linkedin.com/shareArticle?mini=true&url=${currentUrl}`, label: "LinkedIn" },
   { icon: <AiFillTwitterSquare size={35} style={iconStyle} />, url: `https://www.instagram.com/?url=${encodeURIComponent(currentUrl)}`, label: "Twitter" },
   { icon: <AiFillFacebook size={35} style={iconStyle} />, url: `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`, label: "Facebook" },
@@ -50,7 +50,18 @@ export default function ShareDialogBox() {
       <div className="flex gap-3">
        {socialLinks.map((link, index) => (
         <div key={index} className="transition-transform hover:scale-110">
-         <a href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
+         <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={link.label}
+          onclick={(e) => {
+           e.preventDefault();
+           if (link.onclick) {
+            link.onclick();
+           }
+          }}
+         >
           {link.icon}
          </a>
         </div>
