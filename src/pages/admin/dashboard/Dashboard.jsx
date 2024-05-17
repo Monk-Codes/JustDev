@@ -153,10 +153,10 @@ function Dashboard() {
                {date}
               </td>
               <td onClick={() => navigate(`/editblog/${id}`)} style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
-               <button className="px-4 py-1 rounded-full text-white font-bold bg-orange-900">Edit</button>
+               <button className="px-2 py-1 rounded-full text-white font-bold bg-orange-900">Edit</button>
               </td>
               <td onClick={() => deleteBlog(id)} style={{ color: mode === "dark" ? "white" : "black" }} className="px-1 py-4">
-               <button className="px-4 py-1 rounded-full text-white font-bold bg-orange-900">Delete</button>
+               <button className="px-2 py-1 rounded-full text-white font-bold bg-orange-900">Delete</button>
               </td>
              </tr>
             </tbody>
