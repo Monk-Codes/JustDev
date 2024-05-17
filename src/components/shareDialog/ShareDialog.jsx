@@ -17,17 +17,19 @@ export default function ShareDialogBox() {
   color: mode === "dark" ? "white" : "white",
   transition: "transform 0.3s",
  };
- const copyToClipboard = () => {
+
+ const copyToClipboard = (e) => {
+  e.preventDefault();
   navigator.clipboard.writeText(window.location.href);
+  setOpen(false);
   toast.success("Copied to clipboard");
  };
 
  const currentUrl = window.location.href;
 
  const socialLinks = [
-  { icon: <AiFillCopy size={35} style={iconStyle} />, url: "", label: "Copy URL", onclick: copyToClipboard },
   { icon: <AiFillLinkedin size={35} style={iconStyle} />, url: `https://www.linkedin.com/shareArticle?mini=true&url=${currentUrl}`, label: "LinkedIn" },
-  { icon: <AiFillTwitterSquare size={35} style={iconStyle} />, url: `https://www.instagram.com/?url=${encodeURIComponent(currentUrl)}`, label: "Twitter" },
+  { icon: <AiFillTwitterSquare size={35} style={iconStyle} />, url: `https://twitter.com/intent/tweet?url=${currentUrl}&text=Check out this interesting content!`, label: "Twitter" },
   { icon: <AiFillFacebook size={35} style={iconStyle} />, url: `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`, label: "Facebook" },
  ];
 
@@ -48,20 +50,14 @@ export default function ShareDialogBox() {
     <DialogBody>
      <div className="flex justify-center flex-wrap sm:mx-auto sm:mb-2 -mx-2 mt-4 mb-2">
       <div className="flex gap-3">
+       <div className="transition-transform hover:scale-110">
+        <button onClick={copyToClipboard} aria-label="Copy URL" style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}>
+         <AiFillCopy size={35} style={iconStyle} />
+        </button>
+       </div>
        {socialLinks.map((link, index) => (
         <div key={index} className="transition-transform hover:scale-110">
-         <a
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={link.label}
-          onclick={(e) => {
-           e.preventDefault();
-           if (link.onclick) {
-            link.onclick();
-           }
-          }}
-         >
+         <a href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
           {link.icon}
          </a>
         </div>
