@@ -36,9 +36,12 @@
 * [Acknowledgements](#acknowledgements)
 
 ## About The Project
-
-    
-PortFolio of Monk-Codes
+![Screenshot (116)](https://github.com/Monk-Codes/JustDev/assets/84877191/1257f9da-95d7-4d3b-bc5a-8930befb533f)
+![Screenshot (117)](https://github.com/Monk-Codes/JustDev/assets/84877191/6884c3e6-5b11-4f79-b1cc-6f8e1793c760)
+![Screenshot (118)](https://github.com/Monk-Codes/JustDev/assets/84877191/4e956e55-ffe0-4a92-87d4-a775590af087)
+![Screenshot (119)](https://github.com/Monk-Codes/JustDev/assets/84877191/89860660-029a-4311-96e3-18ba08af0913)
+![Screenshot (120)](https://github.com/Monk-Codes/JustDev/assets/84877191/28d1951d-50a1-4ab8-96bd-6ce2ded87fee)
+![Screenshot (121)](https://github.com/Monk-Codes/JustDev/assets/84877191/3cc12d6d-584d-4ed2-95d7-35d1375afd2b)
 
 Here's why:
 
