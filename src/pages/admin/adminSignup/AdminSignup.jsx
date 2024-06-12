@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { auth, fireDB } from "../../../firebase/FirebaseConfig"; // Use fireDB here
+import { auth, fireDB } from "../../../firebase/FirebaseConfig";
 import { Card, CardHeader, CardBody, Input, Button, Typography } from "@material-tailwind/react";
 import myContext from "../../../context/data/myContext";
 import "../../../components/variables.css";
@@ -15,6 +15,21 @@ export default function Signup() {
 
  const [email, setEmail] = useState("");
  const [password, setPassword] = useState("");
+
+ // Check authentication state
+ useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+   if (user) {
+    localStorage.setItem("user", JSON.stringify(user));
+    navigate("/dashboard");
+   } else {
+    navigate("/adminlogin");
+   }
+  });
+
+  // Cleanup subscription on unmount
+  return () => unsubscribe();
+ }, [navigate]);
 
  const signupWithEmail = async () => {
   if (!email || !password) {
@@ -36,7 +51,7 @@ export default function Signup() {
      profileImage: user.photoURL || "",
     });
     toast.success("Signup Success");
-    localStorage.setItem("admin", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
     navigate("/dashboard");
    }
   } catch (error) {
@@ -63,7 +78,7 @@ export default function Signup() {
      profileImage: user.photoURL || "",
     });
     toast.success("Signup Success");
-    localStorage.setItem("admin", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
     navigate("/dashboard");
    }
   } catch (error) {

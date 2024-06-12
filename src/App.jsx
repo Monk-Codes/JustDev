@@ -9,8 +9,8 @@ import AdminSignup from "./pages/admin/adminSignup/AdminSignup";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import CreateBlog from "./pages/admin/createBlog/CreateBlog";
 import MyState from "./context/data/MyState";
-import { Toaster } from "react-hot-toast";
 import EditBlog from "./pages/editBlog/EditBlog";
+import { Toaster } from "react-hot-toast";
 
 function App() {
  return (
@@ -27,17 +27,17 @@ function App() {
      <Route
       path="/dashboard"
       element={
-       <ProtectedRouteForAdmin>
+       <ProtectedRoute>
         <Dashboard />
-       </ProtectedRouteForAdmin>
+       </ProtectedRoute>
       }
      />
      <Route
       path="/createblog"
       element={
-       <ProtectedRouteForAdmin>
+       <ProtectedRoute>
         <CreateBlog />
-       </ProtectedRouteForAdmin>
+       </ProtectedRoute>
       }
      />
      <Route path="/*" element={<NoPage />} />
@@ -49,9 +49,10 @@ function App() {
 }
 
 export default App;
-export const ProtectedRouteForAdmin = ({ children }) => {
- const admin = JSON.parse(localStorage.getItem("admin"));
- if (admin?.user?.email === "testuser@gmail.com") {
+
+export const ProtectedRoute = ({ children }) => {
+ const user = JSON.parse(localStorage.getItem("user"));
+ if (user) {
   return children;
  } else {
   return <Navigate to={"/adminlogin"} />;

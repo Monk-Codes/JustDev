@@ -31,7 +31,7 @@ export default function AdminLogin() {
    const isExistingUser = await checkIfUserExists(user.uid);
    if (isExistingUser) {
     toast.success("Login Success");
-    localStorage.setItem("admin", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
     navigate("/");
    } else {
     setUserExists(false);
@@ -52,7 +52,7 @@ export default function AdminLogin() {
 
    if (isExistingUser) {
     toast.success("Login Success");
-    localStorage.setItem("admin", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
     navigate("/");
    } else {
     setUserExists(false);
@@ -129,7 +129,7 @@ export default function AdminLogin() {
       </Button>
       {!userExists && (
        <Button
-        onClick={() => navigate("/adminsignup")}
+        onClick={() => navigate("/usersignup")}
         style={{
          background: mode === "dark" ? "var(--btn-d-color)" : "var(--btn-color)",
          color: mode === "dark" ? "var(--btn-color)" : "var(--btn-d-color)",
