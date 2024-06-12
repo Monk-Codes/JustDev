@@ -28,7 +28,7 @@ export default function Nav() {
    </Typography>
    <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal" style={{ color: mode === "dark" ? "white" : "white" }}>
     <Link to={"/adminlogin"} className="flex items-center">
-     Admin Login
+     Login
     </Link>
    </Typography>
   </ul>

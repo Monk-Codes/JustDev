@@ -24,7 +24,7 @@ function HeroSection() {
 
       {/* Paragraph  */}
       <p style={{ color: mode === "dark" ? "#C63D2F" : "white" }} className="sm:text-3xl text-xl font-semibold sm:mx-auto ">
-       Here are some blogs and tutorials contributed by Monk-Codes.
+       Here are some blogs and tutorials contributed by Developers.
       </p>
      </div>
     </main>

@@ -1,72 +1,75 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { auth, fireDB } from "../../../firebase/FirebaseConfig"; // Use fireDB here
 import { Card, CardHeader, CardBody, Input, Button, Typography } from "@material-tailwind/react";
 import myContext from "../../../context/data/myContext";
-import { doc, getDoc } from "firebase/firestore";
 import "../../../components/variables.css";
-import { auth, fireDB } from "../../../firebase/FirebaseConfig";
 
-export default function AdminLogin() {
- useEffect(() => {
-  window.scrollTo(0, 0);
- }, []);
-
+export default function Signup() {
  const context = useContext(myContext);
  const { mode } = context;
  const navigate = useNavigate();
 
  const [email, setEmail] = useState("");
  const [password, setPassword] = useState("");
- const [userExists, setUserExists] = useState(true);
 
- const login = async () => {
+ const signupWithEmail = async () => {
   if (!email || !password) {
    return toast.error("Fill all required fields");
   }
   try {
-   const result = await signInWithEmailAndPassword(auth, email, password);
+   const result = await createUserWithEmailAndPassword(auth, email, password);
    const user = result.user;
-   const isExistingUser = await checkIfUserExists(user.uid);
-   if (isExistingUser) {
-    toast.success("Login Success");
-    localStorage.setItem("admin", JSON.stringify(user));
-    navigate("/");
+
+   // Check if the user already exists
+   const userDoc = await getDoc(doc(fireDB, "users", user.uid));
+   if (userDoc.exists()) {
+    toast.error("User already exists. Please login.");
    } else {
-    setUserExists(false);
-    toast.error("User doesn't exist. Please signup.");
+    // Add user to Firestore
+    await setDoc(doc(fireDB, "users", user.uid), {
+     email: user.email,
+     uid: user.uid,
+     profileImage: user.photoURL || "",
+    });
+    toast.success("Signup Success");
+    localStorage.setItem("admin", JSON.stringify(user));
+    navigate("/dashboard");
    }
   } catch (error) {
-   toast.error("Login Failed");
+   toast.error("Signup Failed");
    console.log(error);
   }
  };
 
- const loginWithGoogle = async () => {
+ const signupWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   try {
    const result = await signInWithPopup(auth, provider);
    const user = result.user;
-   const isExistingUser = await checkIfUserExists(user.uid);
 
-   if (isExistingUser) {
-    toast.success("Login Success");
-    localStorage.setItem("admin", JSON.stringify(user));
-    navigate("/");
+   // Check if the user already exists
+   const userDoc = await getDoc(doc(fireDB, "users", user.uid));
+   if (userDoc.exists()) {
+    toast.error("User already exists. Please login.");
    } else {
-    setUserExists(false);
-    toast.error("User doesn't exist. Please signup.");
+    // Add user to Firestore
+    await setDoc(doc(fireDB, "users", user.uid), {
+     email: user.email,
+     uid: user.uid,
+     profileImage: user.photoURL || "",
+    });
+    toast.success("Signup Success");
+    localStorage.setItem("admin", JSON.stringify(user));
+    navigate("/dashboard");
    }
   } catch (error) {
-   toast.error("Login Failed");
+   toast.error("Signup Failed");
    console.log(error);
   }
- };
-
- const checkIfUserExists = async (uid) => {
-  const userDoc = await getDoc(doc(fireDB, "users", uid));
-  return userDoc.exists();
  };
 
  return (
@@ -87,7 +90,7 @@ export default function AdminLogin() {
      }}
     >
      <div className="mb-4 border border-white/10 bg-white/10 p-2 text-white">
-      <div className=" flex justify-center">
+      <div className="flex justify-center">
        <img src={"https://i.ibb.co/nsFNY7Z/vlogger.gif"} className="h-20 w-20" />
       </div>
      </div>
@@ -97,7 +100,7 @@ export default function AdminLogin() {
        color: mode === "dark" ? "var(--btn-color)" : "var(--btn-d-color)",
       }}
      >
-      Admin Login
+      Signup
      </Typography>
     </CardHeader>
 
@@ -110,34 +113,23 @@ export default function AdminLogin() {
        <Input type="password" label="Password" className="text-light-green-400" value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
       <Button
-       onClick={login}
+       onClick={signupWithEmail}
        style={{
         background: mode === "dark" ? "var(--btn-d-color)" : "var(--btn-color)",
         color: mode === "dark" ? "var(--btn-color)" : "var(--btn-d-color)",
        }}
       >
-       Login
+       Signup with Email
       </Button>
       <Button
-       onClick={loginWithGoogle}
+       onClick={signupWithGoogle}
        style={{
         background: mode === "dark" ? "var(--btn-d-color)" : "var(--btn-color)",
         color: mode === "dark" ? "var(--btn-color)" : "var(--btn-d-color)",
        }}
       >
-       Login with Google
+       Signup with Google
       </Button>
-      {!userExists && (
-       <Button
-        onClick={() => navigate("/adminsignup")}
-        style={{
-         background: mode === "dark" ? "var(--btn-d-color)" : "var(--btn-color)",
-         color: mode === "dark" ? "var(--btn-color)" : "var(--btn-d-color)",
-        }}
-       >
-        Signup
-       </Button>
-      )}
      </form>
     </CardBody>
    </Card>
